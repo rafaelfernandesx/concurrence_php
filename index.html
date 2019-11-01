@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="response"></div>
+    <button ajax_button>Ajax Call</button>
+    <div id="output"></div>
+
+    <script>
+        const length = 1000;
+        const array = [];
+        const button = document.querySelector('[ajax_button]');
+        const sortedResponses = document.querySelector('#output');
+
+
+        button.addEventListener('click', () => {
+            for (let i = 1; i < length; i++) {
+                ajax(i);
+            }
+        });
+
+
+        function ajax(i) {
+            const url = `/?index=${i}`
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.onload = e => {
+                if (xhr.status === 200) {
+                    let parsedResponse = JSON.parse(xhr.response);
+                    array[i] = (parsedResponse);
+                    array.sort((a, b) => parseFloat(b.tempo_inicial) - parseFloat(a.tempo_inicial));
+                    sortedResponses.innerHTML = JSON.stringify(array) + '<br />';
+                } else if (xhr.status >= 400) {
+                    console.log(xht.status)
+                }
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+
+</html>
